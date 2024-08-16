@@ -32,7 +32,15 @@ async function run() {
         app.get('/products', async (req, res) => {
             const page = parseInt(req.query.page)
             const size = parseInt(req.query.size)
-            // console.log('current , item', req.query)
+            // const search = req.query.search
+            // console.log('see', search)
+            // if (search) {
+            //     const query = {
+            //         title: { $regex: search, $options: 'i' }
+            //     };
+            //     const result = await productsCollection.find(query).skip(page * size).limit(size).toArray();
+            //     res.send(result);
+            // }
             const result = await productsCollection.find().skip(page * size).limit(size).toArray();
             res.send(result);
         })
@@ -43,9 +51,9 @@ async function run() {
         })
 
         app.get('/sort/:sortItem', async (req, res) => {
-            const sortItem=req.params.sortItem;
+            const sortItem = req.params.sortItem;
             console.log(sortItem)
-            if(sortItem=='price'){
+            if (sortItem == 'price') {
                 const cursor = productsCollection.find().sort({ price: 1 });
                 const result = await cursor.toArray();
                 res.send(result);
@@ -53,6 +61,16 @@ async function run() {
             const cursor = productsCollection.find().sort({ date: 1 });
             const result = await cursor.toArray();
             res.send(result);
+        })
+        app.get('/search', async (req, res) => {
+            const search = req.query.search
+            console.log('see',search)
+            const query = {
+                title: { $regex: search, $options: 'i' }
+            };
+            const result = await productsCollection.find(query).toArray();
+            res.send(result);
+
         })
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
