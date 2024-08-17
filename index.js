@@ -9,8 +9,8 @@ const port = process.env.PORT || 5000;
 app.use(cors({
     origin: [
       "http://localhost:5173",
-      "https://trendbuy.netlify.app",
-      "https://trendbuy.firebaseapp.com",
+      "https://trendbuy-f057c.web.app",
+      "https://trendbuy-f057c.firebaseapp.com",
     ],
     credentials: true,
   }));
