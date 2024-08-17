@@ -6,7 +6,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Moiddleware
-app.use(cors());
+app.use(cors({
+    origin: [
+      "http://localhost:5173",
+      "https://trendbuy.netlify.app",
+      "https://trendbuy.firebaseapp.com",
+    ],
+    credentials: true,
+  }));
 app.use(express.json());
 
 // console.log(process.env.DB_PASS,process.env.DB_USER)
@@ -75,7 +82,6 @@ async function run() {
 
         })
    
-
 
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
