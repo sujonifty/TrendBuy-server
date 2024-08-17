@@ -44,8 +44,13 @@ async function run() {
         app.get('/sort/:sortItem', async (req, res) => {
             const sortItem = req.params.sortItem;
             console.log(sortItem)
-            if (sortItem == 'price') {
+            if (sortItem == 'lowPrice') {
                 const cursor = productsCollection.find().sort({ price: 1 });
+                const result = await cursor.toArray();
+                res.send(result);
+            }
+            if (sortItem == 'highPrice') {
+                const cursor = productsCollection.find().sort({ price: -1 });
                 const result = await cursor.toArray();
                 res.send(result);
             }
@@ -73,7 +78,7 @@ async function run() {
 
 
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
