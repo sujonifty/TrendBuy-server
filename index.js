@@ -32,15 +32,6 @@ async function run() {
         app.get('/products', async (req, res) => {
             const page = parseInt(req.query.page)
             const size = parseInt(req.query.size)
-            // const search = req.query.search
-            // console.log('see', search)
-            // if (search) {
-            //     const query = {
-            //         title: { $regex: search, $options: 'i' }
-            //     };
-            //     const result = await productsCollection.find(query).skip(page * size).limit(size).toArray();
-            //     res.send(result);
-            // }
             const result = await productsCollection.find().skip(page * size).limit(size).toArray();
             res.send(result);
         })
@@ -64,7 +55,7 @@ async function run() {
         })
         app.get('/search', async (req, res) => {
             const search = req.query.search
-            console.log('see',search)
+            console.log('see', search)
             const query = {
                 title: { $regex: search, $options: 'i' }
             };
@@ -72,6 +63,15 @@ async function run() {
             res.send(result);
 
         })
+        app.get('/filteredData', async (req, res) => {
+            
+            const result = await productsCollection.find().toArray();
+            res.send(result);
+
+        })
+   
+
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
